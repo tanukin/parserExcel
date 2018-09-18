@@ -1,13 +1,23 @@
 <?php
 
-namespace App\Services;
+namespace App\Parses;
 
 use App\Entities\Box;
+use App\Entities\Excel;
 use App\Entities\Shipment;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ParseService
+class ParseExcel
 {
+    const READ_ROWS = [2, 5000];
+    const READ_COLUMNS = ['B', 'C'];
+
+    /**
+     * @var XlsxFactory
+     */
+    private $xlsxFactory;
+
     /**
      * @var array
      */
@@ -23,7 +33,34 @@ class ParseService
      */
     private $shipmentsBoxes = [];
 
-    public function execute(Worksheet $worksheet)
+    public function __construct(XlsxFactory $xlsxFactory)
+    {
+        $this->xlsxFactory = $xlsxFactory;
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return Worksheet
+     *
+     * @throws Exception
+     */
+    public function read(string $fileName): Worksheet
+    {
+        $reader = $this->xlsxFactory->getXlsx();
+        $reader->setReadDataOnly(true);
+        $reader->setReadFilter($this->xlsxFactory->getReadFilter(self::READ_ROWS, self::READ_COLUMNS));
+        $spreadsheet = $reader->load($fileName);
+
+        return $spreadsheet->getActiveSheet();
+    }
+
+    /**
+     * @param Worksheet $worksheet
+     *
+     * @return Excel
+     */
+    public function execute(Worksheet $worksheet): Excel
     {
         $array = $worksheet->toArray();
 
@@ -48,29 +85,7 @@ class ParseService
 
             array_push($this->shipmentsBoxes, [$this->shipments[$cellShipment], $this->boxes[$cellBox]]);
         }
-    }
 
-    /**
-     * @return array
-     */
-    public function getShipments(): array
-    {
-        return array_values($this->shipments);
-    }
-
-    /**
-     * @return array
-     */
-    public function getBoxes(): array
-    {
-        return array_values($this->boxes);
-    }
-
-    /**
-     * @return array
-     */
-    public function getShipmentsBoxes(): array
-    {
-        return $this->shipmentsBoxes;
+        return new Excel($this->shipments, $this->boxes, $this->shipmentsBoxes);
     }
 }

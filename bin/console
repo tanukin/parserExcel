@@ -3,11 +3,11 @@
 
 require __DIR__ . "/../vendor/autoload.php";
 
-use App\Commands\CreateTables;
-use App\Commands\ParseExcel;
+use App\Commands\CreateTablesCommand;
+use App\Commands\ParseExcelCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
-$application->add(new CreateTables());
-$application->add(new ParseExcel());
+$application->add(new CreateTablesCommand());
+$application->add(new ParseExcelCommand());
 $application->run();

@@ -9,7 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateTables extends Command
+class CreateTablesCommand extends Command
 {
     const CONFIG_PATH = __DIR__ . '/../../configuration/mysql.yml';
 
