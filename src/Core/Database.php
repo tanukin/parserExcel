@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services;
+namespace App\Core;
 
-use App\Repository\BoxRepository;
+use App\Interfaces\RepositoryInterface;
 
-class BoxService
+class Database
 {
     /**
-     * @var BoxRepository
+     * @var RepositoryInterface
      */
     private $repository;
 
-    public function __construct(BoxRepository $repository)
+    public function __construct(RepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

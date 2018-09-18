@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entities\Box;
+use App\Interfaces\RepositoryInterface;
 use PDO;
 
-class BoxRepository
+class BoxRepository implements RepositoryInterface
 {
     /**
      * @var PDO

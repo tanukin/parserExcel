@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Core\Connection;
+use App\Core\DatabaseFactory;
 use App\Parses\ParseExcel;
 use App\Parses\XlsxFactory;
 use App\Repository\BoxRepository;
@@ -51,14 +52,10 @@ class ParseExcelCommand extends Command
             $excel = new ParseExcel(new XlsxFactory());
             $excelDto = $excel->execute($excel->read(self::EXCEL_PATH . $fileName));
 
-            $shipService = new ShipmentService(new ShipmentRepository($connect->getConnect()));
-            $shipService->save($excelDto->getShipments());
-
-            $boxService = new BoxService(new BoxRepository($connect->getConnect()));
-            $boxService->save($excelDto->getBoxes());
-
-            $shipBoxService = new ShipmentBoxService(new ShipmentBoxRepository($connect->getConnect()));
-            $shipBoxService->save($excelDto->getShipmentsBoxes());
+            $dbFactory = new DatabaseFactory($connect->getConnect());
+            $dbFactory->getShipment()->save($excelDto->getShipments());
+            $dbFactory->getBox()->save($excelDto->getBoxes());
+            $dbFactory->getShipmentBox()->save($excelDto->getShipmentsBoxes());
 
             $output->writeln('Successfully');
 

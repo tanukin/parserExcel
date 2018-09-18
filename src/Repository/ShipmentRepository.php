@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entities\Shipment;
+use App\Interfaces\RepositoryInterface;
 use PDO;
 
-class ShipmentRepository
+class ShipmentRepository implements RepositoryInterface
 {
     /**
      * @var PDO
