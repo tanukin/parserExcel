@@ -9,7 +9,7 @@ docker-compose
 Installing
 ---
 ~~~
-composer update
+composer install
 ~~~
 Settings
 ---

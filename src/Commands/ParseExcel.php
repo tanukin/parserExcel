@@ -50,7 +50,7 @@ class ParseExcel extends Command
 
             $excel = new ReadExcel(self::EXCEL_PATH . $fileName);
             $parseService = new ParseService();
-            $parseService->parseArray($excel->read());
+            $parseService->execute($excel->read());
 
             $shipService = new ShipmentService(new ShipmentRepository($connect->getConnect()));
             $shipService->save($parseService->getShipments());

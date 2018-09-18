@@ -23,7 +23,7 @@ class ParseService
      */
     private $shipmentsBoxes = [];
 
-    public function parseArray(Worksheet $worksheet)
+    public function execute(Worksheet $worksheet)
     {
         $array = $worksheet->toArray();
 
