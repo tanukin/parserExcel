@@ -5,8 +5,10 @@
 require __DIR__ . "/../vendor/autoload.php";
 
 use App\Commands\CreateTables;
+use App\Commands\ParseExcel;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add(new CreateTables());
+$application->add(new ParseExcel());
 $application->run();
